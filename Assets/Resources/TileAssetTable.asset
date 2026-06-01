@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd8fc75c667cb6b4599ef32b6f59aee5, type: 3}
+  m_Name: TileAssetTable
+  m_EditorClassIdentifier: 
+  terrainTextures:
+  - {fileID: 2800000, guid: 73646b0393675ba4781155fb1019514a, type: 3}
+  - {fileID: 2800000, guid: c1bdebbfa66ec034bb3bb0c2d6621be4, type: 3}
+  - {fileID: 2800000, guid: 16c56d08aa9db1247bcd3967c3df7f43, type: 3}
+  - {fileID: 2800000, guid: 2b52451a1caa6304a85054a7212fb4b5, type: 3}
+  - {fileID: 2800000, guid: 03576f6554cbe934f9d6b334ea7018f5, type: 3}
+  - {fileID: 2800000, guid: ddf7dd83d9c967145afd89e2f8e9643a, type: 3}
+  - {fileID: 2800000, guid: 2f833e27361672d42999b61e0155baa0, type: 3}
+  lighthouse: {fileID: 2800000, guid: e5e05ca582b37b2439e52806fe04e6e8, type: 3}
+  campGrass: {fileID: 2800000, guid: ec7ec647e8e7b924a957feee7e814324, type: 3}
+  campForest: {fileID: 2800000, guid: bc03286ee26e5f64e978ced2b2a76bf4, type: 3}
+  gameBoard: {fileID: 2800000, guid: 45258cdc632a24747853cbe02e0f61ef, type: 3}

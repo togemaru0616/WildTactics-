@@ -1,0 +1,149 @@
+{
+    "Tiger": {
+        "FoxMult": 4.0,
+        "FoxGuardMult": 3.362186908721924,
+        "CampMult": 4.0,
+        "FleeThresholdMult": 1.4868476390838624,
+        "FormationBias": 2.0
+    },
+    "Bear": {
+        "FoxMult": 1.0645023584365845,
+        "FoxGuardMult": 1.3008627891540528,
+        "CampMult": 0.3848678469657898,
+        "FleeThresholdMult": 1.9618656635284424,
+        "FormationBias": 1.5
+    },
+    "Gorilla": {
+        "FoxMult": 3.739511251449585,
+        "FoxGuardMult": 0.0,
+        "CampMult": 4.0,
+        "FleeThresholdMult": 4.0,
+        "FormationBias": 1.5
+    },
+    "Lion": {
+        "FoxMult": 2.003760576248169,
+        "FoxGuardMult": 2.4174232482910158,
+        "CampMult": 3.916131019592285,
+        "FleeThresholdMult": 3.884056806564331,
+        "FormationBias": 2.0
+    },
+    "Chimpanzee": {
+        "FoxMult": 1.2216418981552125,
+        "FoxGuardMult": 2.500617742538452,
+        "CampMult": 4.0,
+        "FleeThresholdMult": 3.3672256469726564,
+        "FormationBias": 1.0
+    },
+    "Rhino": {
+        "FoxMult": 0.0,
+        "FoxGuardMult": 4.0,
+        "CampMult": 0.0,
+        "FleeThresholdMult": 1.7810226678848267,
+        "FormationBias": 1.5
+    },
+    "Horse": {
+        "FoxMult": 3.9282963275909426,
+        "FoxGuardMult": 1.4090118408203126,
+        "CampMult": 2.021195888519287,
+        "FleeThresholdMult": 4.0,
+        "FormationBias": 1.0
+    },
+    "Snake": {
+        "FoxMult": 4.0,
+        "FoxGuardMult": 2.7680113315582277,
+        "CampMult": 1.686693787574768,
+        "FleeThresholdMult": 0.0,
+        "FormationBias": 0.5
+    },
+    "Boar": {
+        "FoxMult": 3.5009992122650148,
+        "FoxGuardMult": 3.4203014373779299,
+        "CampMult": 1.5120559930801392,
+        "FleeThresholdMult": 2.9398415088653566,
+        "FormationBias": 2.0
+    },
+    "Hippo": {
+        "FoxMult": 1.3951151371002198,
+        "FoxGuardMult": 1.3996154069900513,
+        "CampMult": 1.7571221590042115,
+        "FleeThresholdMult": 3.3712663650512697,
+        "FormationBias": 1.5
+    },
+    "Giraffe": {
+        "FoxMult": 3.247004747390747,
+        "FoxGuardMult": 1.2166171073913575,
+        "CampMult": 3.286738872528076,
+        "FleeThresholdMult": 0.0,
+        "FormationBias": 0.0
+    },
+    "Elephant": {
+        "FoxMult": 0.7217037677764893,
+        "FoxGuardMult": 2.6766016483306886,
+        "CampMult": 2.6712453365325929,
+        "FleeThresholdMult": 0.33787262439727785,
+        "FormationBias": 1.5
+    },
+    "Panda": {
+        "FoxMult": 1.6387428045272828,
+        "FoxGuardMult": 0.32573461532592776,
+        "CampMult": 0.086003877222538,
+        "FleeThresholdMult": 4.0,
+        "FormationBias": -0.5
+    },
+    "Wolf": {
+        "FoxMult": 0.0,
+        "FoxGuardMult": 0.0,
+        "CampMult": 0.0,
+        "FleeThresholdMult": 4.0,
+        "FormationBias": 1.0
+    },
+    "Reindeer": {
+        "FoxMult": 4.0,
+        "FoxGuardMult": 1.7991234064102173,
+        "CampMult": 0.0,
+        "FleeThresholdMult": 0.0,
+        "FormationBias": 0.5
+    },
+    "Fox": {
+        "FoxMult": 2.320756435394287,
+        "FoxGuardMult": 0.853810727596283,
+        "CampMult": 2.3513455390930177,
+        "FleeThresholdMult": 1.4270349740982056,
+        "FormationBias": -1.0
+    },
+    "ExploreNewTileWeight": 16.905075073242189,
+    "ExploreLhGradient": 6.045909881591797,
+    "ExploreFormationBonus": 18.527551651000978,
+    "ExploreExposurePen": -3.887843132019043,
+    "LighthouseCapture": 101.98504638671875,
+    "FoxKillReward": 287.6136474609375,
+    "DualAdvantageBonus": 38.27585220336914,
+    "SafeAttack": 77.12226104736328,
+    "DefenderFoxDist": 39.45372772216797,
+    "FoxDangerPen": 169.86358642578126,
+    "RangeAttackBonus": 35.915870666503909,
+    "NumericalPowerMult": 12.0,
+    "PressureShift": 156.26837158203126,
+    "TerrainBonus": 11.823403358459473,
+    "CampBonus": 37.57845687866211,
+    "SeekLastKnownBonus": 0.22476951777935029,
+    "FormationSpreadPen": 36.33137893676758,
+    "AnimalPick": {
+        "Tiger": 10.915528297424317,
+        "Bear": 37.18233108520508,
+        "Gorilla": 29.634441375732423,
+        "Lion": 0.3014164865016937,
+        "Chimpanzee": 4.459466934204102,
+        "Rhino": 12.753530502319336,
+        "Horse": 40.76728439331055,
+        "Snake": -16.853763580322267,
+        "Boar": 3.761791229248047,
+        "Hippo": 41.626953125,
+        "Giraffe": 6.7800445556640629,
+        "Elephant": 33.654293060302737,
+        "Panda": 50.14397048950195,
+        "Wolf": 2.8309545516967775,
+        "Reindeer": 21.797624588012697
+    },
+    "TerrainPickScale": 4.128957271575928
+}

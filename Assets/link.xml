@@ -1,0 +1,19 @@
+<linker>
+    <!-- CreatePrimitive で暗黙的に追加されるコライダー -->
+    <assembly fullname="UnityEngine.PhysicsModule">
+        <type fullname="UnityEngine.CapsuleCollider" preserve="all"/>
+        <type fullname="UnityEngine.BoxCollider"     preserve="all"/>
+        <type fullname="UnityEngine.MeshCollider"    preserve="all"/>
+        <type fullname="UnityEngine.SphereCollider"  preserve="all"/>
+    </assembly>
+    <!-- URP コンポーネント（動的 AddComponent） -->
+    <assembly fullname="Unity.RenderPipelines.Universal.Runtime">
+        <type fullname="UnityEngine.Rendering.Universal.UniversalAdditionalCameraData" preserve="all"/>
+    </assembly>
+    <!-- Audio: WebGL では loadState / LoadAudioData 等を参照するため保持 -->
+    <assembly fullname="UnityEngine.AudioModule" preserve="all"/>
+    <!-- RenderGraph: Unity 6 URP で使用 -->
+    <assembly fullname="Unity.RenderPipelines.Core.Runtime" preserve="all"/>
+    <!-- VideoPlayer -->
+    <assembly fullname="UnityEngine.VideoModule" preserve="all"/>
+</linker>

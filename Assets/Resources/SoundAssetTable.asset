@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96ac63e78e806f4a8f607d15d69faaa, type: 3}
+  m_Name: SoundAssetTable
+  m_EditorClassIdentifier: 
+  bgmTitle: {fileID: 8300000, guid: cbba663c711eaa643a664fb2cce9b620, type: 3}
+  bgmPlacement: {fileID: 8300000, guid: 1b9b14bd1f5776040a55f457dd6ce6aa, type: 3}
+  bgmExplore: {fileID: 8300000, guid: 902a49cdac2a44c49afab0fba5aabf4d, type: 3}
+  bgmCombat: {fileID: 8300000, guid: 2ff1405ba149fe14296a7bc044aed8a5, type: 3}
+  bgmVictory: {fileID: 8300000, guid: a2d69e93c39013c459858db3306620cb, type: 3}
+  bgmDefeat: {fileID: 8300000, guid: 856bfaf5d166dcc428a773876dcc1e2e, type: 3}
+  seTap: {fileID: 8300000, guid: d3153831aec25f340b3079ca73f88ddf, type: 3}
+  seCancel: {fileID: 8300000, guid: c5cebc8a1cfb32b4393fa7ea159c1548, type: 3}
+  seAnimalTouch: {fileID: 8300000, guid: 72ecbbb4cc7006048b7f3cc52ecc9d71, type: 3}
+  seHeal: {fileID: 8300000, guid: e3dc8f2f56704b74880bbba8526efd16, type: 3}
+  sePoison: {fileID: 8300000, guid: e027d6ebc47f6414eb624b705643dc7d, type: 3}
+  sePoisonBack: {fileID: 8300000, guid: 707b84bc0e2e9284e816b9e233b5a55d, type: 3}

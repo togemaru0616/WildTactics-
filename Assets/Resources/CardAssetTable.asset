@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4688af220880c094a8ddcc5c86fb2177, type: 3}
+  m_Name: CardAssetTable
+  m_EditorClassIdentifier: 
+  animalSprites:
+  - {fileID: 21300000, guid: 8d0f2f2352415cc48b4a59f7420ab3f8, type: 3}
+  - {fileID: 21300000, guid: 2355377702b4b1442bae0952f0ce7665, type: 3}
+  - {fileID: 21300000, guid: c635e39860755cc48804bf15cce248fe, type: 3}
+  - {fileID: 21300000, guid: 9dd1b99b71201c742bc248d8f1123157, type: 3}
+  - {fileID: 21300000, guid: b2319b3236c57014da372edccd44f617, type: 3}
+  - {fileID: 21300000, guid: 9c1ab2e65b36e6f45918f651973e557b, type: 3}
+  - {fileID: 21300000, guid: 541747da7fe7a7a41b02390e5de7ccdb, type: 3}
+  - {fileID: 21300000, guid: 6e5f22c41db652a45bfd876b03bf03d1, type: 3}
+  - {fileID: 21300000, guid: 7fab3f1738ba95c4080928655f85db55, type: 3}
+  - {fileID: 21300000, guid: 6c1f90af71a8f474a8d72c45a7628d63, type: 3}
+  - {fileID: 21300000, guid: adcdf9a99a92a0f4aa902c4986351aaa, type: 3}
+  - {fileID: 21300000, guid: 351b9a48a88a59b4fad0fafa4ddc4776, type: 3}
+  - {fileID: 21300000, guid: dfc518aac72a5e744b68394e58782433, type: 3}
+  - {fileID: 21300000, guid: 7f52988cec92cf14b978469219513f5a, type: 3}
+  - {fileID: 21300000, guid: 94c798f6316c5de45b2c124c55d44876, type: 3}
+  - {fileID: 21300000, guid: b05d5fb7d4711bb4497a68b75623b44f, type: 3}
+  rankBadges:
+  - {fileID: 21300000, guid: fd97543cbfb7e23419ee1038ae04fe2d, type: 3}
+  - {fileID: 21300000, guid: d9bcc68de0e5a3946ada2354a3aee6f6, type: 3}
+  - {fileID: 21300000, guid: 497cb525c44612e4ab659e4ac130aed7, type: 3}
+  coinBadges:
+  - {fileID: 21300000, guid: 14ddc3b3d0fdf8d4796d76e20062901f, type: 3}
+  - {fileID: 21300000, guid: 2358848e8cdc5bd42a23593a648f0f0d, type: 3}
+  - {fileID: 21300000, guid: 1740f7621c6f24642a784631ef98e7b7, type: 3}
+  terrainRocky: {fileID: 21300000, guid: 3d1aa1a5dda3ed346b16386a42e69f2f, type: 3}
+  terrainRockyBlocked: {fileID: 21300000, guid: 714cfae42608edf4b92f5df089c389b6, type: 3}
+  terrainForest: {fileID: 21300000, guid: 0b0f52232b9dc504c87e4f97c9337c02, type: 3}
+  terrainForestBlocked: {fileID: 21300000, guid: bdb0e1ed506a4b649b71875d7ac481a9, type: 3}
+  terrainRiver: {fileID: 21300000, guid: dab879d88dc6e0046bbcc209a5bb3f0b, type: 3}
+  terrainRiverBlocked: {fileID: 21300000, guid: 91c84ee5625d6104088fdf00db02e7f4, type: 3}
+  cardPrefab: {fileID: 309738483043309869, guid: 7395cf358a040244f81bcdd0a12ea638, type: 3}
+  animalCardPrefabs:
+  - {fileID: 4477738102214590948, guid: 9958524ca02ed31488c95477a88f88c4, type: 3}
+  - {fileID: 7215643464940311506, guid: 639ce60b81a0bc846917709700fbbad3, type: 3}
+  - {fileID: 4477738102214590948, guid: 27993dc302ee69649bebe11b398b1301, type: 3}
+  - {fileID: 1254262173118725577, guid: bd33db7a5978fb749a992c806d1d9a2b, type: 3}
+  - {fileID: 7373594254390624609, guid: 8a61865c70a0d4c43bb16f6f1c447412, type: 3}
+  - {fileID: 5554888201142678209, guid: 1d855479552e93748a636b8e12e39621, type: 3}
+  - {fileID: 284303250184105915, guid: 8161ad39088b40e46a43edd1a87a2653, type: 3}
+  - {fileID: 5305345790694672062, guid: 519ff90adebd87848aa564396b08dc76, type: 3}
+  - {fileID: 861669348543128840, guid: 0db9e38af8327334fb010dc3849581d1, type: 3}
+  - {fileID: 3085113849077833924, guid: 7378768beecfa8140bda9a964b93b018, type: 3}
+  - {fileID: 4478857668129389986, guid: 68d349879597df048b92e4dd31322cb5, type: 3}
+  - {fileID: 6308601033279326847, guid: 1d9e998cb0744a941a73af4d49c78a46, type: 3}
+  - {fileID: 761317746585446473, guid: a484af90decc26c49868fe9ccd822c9a, type: 3}
+  - {fileID: 7741707376483453228, guid: 5a09fadeec586714395ba6fd939a2fbd, type: 3}
+  - {fileID: 1792350765025145731, guid: 0822333d4a935ab43b1148f9f3bb4302, type: 3}
+  - {fileID: 4457129349368159141, guid: 10ce39fec8bda4f4e8517fe7ee7dfdc6, type: 3}
