@@ -19,4 +19,7 @@ public class AnimalSoundController : MonoBehaviour
     public void PlayAttack() => AudioPool.PlayOneShot(_attackClip, _attackVolMult * SoundManager.AnimalVolume);
     public void PlayHit()    { }
     public void PlayDeath()  => AudioPool.PlayOneShot(_deathClip,  SoundManager.AnimalVolume);
+
+    // polyperfect アニメーションクリップに埋め込まれた AnimationEvent の受け取り（no-op）
+    void AnimalSound() { }
 }

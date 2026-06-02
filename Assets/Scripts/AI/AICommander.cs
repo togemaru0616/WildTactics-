@@ -14,7 +14,8 @@ public class AICommander : MonoBehaviour
     AIWeightSet _wSet;
 
     [Header("思考設定")]
-    [SerializeField, Range(0f, 1f)] float _depth2Discount = 0.6f;
+    [SerializeField, Range(0f, 1f)] float _depth2Discount    = 0.6f;
+    [SerializeField, Range(0f, 1f)] float _lookaheadDiscount = 0.5f;
 
     // ---- モード管理 ----
     enum AIMode { Explore, Combat }
@@ -192,16 +193,50 @@ public class AICommander : MonoBehaviour
     Vector2Int FallbackGreedy(AnimalUnit unit)
     {
         UpdateMode();
-        bool d2 = ShouldUseDepth2(unit);
-        var dest = unit.GridPos;
-        float bestScore = float.MinValue;
+        bool useD2 = ShouldUseDepth2(unit);
+        var moves = GetValidMoves(unit);
 
-        foreach (var d in GetValidMoves(unit))
+        // Pass 1: 全移動候補をスコアリング
+        var scored = new List<(Vector2Int dest, float score)>(moves.Count);
+        foreach (var d in moves)
         {
             float ms = ScoreMove(unit, d);
-            float s  = d2 ? ms - _depth2Discount * EvalEnemyBestResponse(unit, d) : ms;
-            if (s >= bestScore) { bestScore = s; dest = d; }
+            float s  = useD2 ? ms - _depth2Discount * EvalEnemyBestResponse(unit, d) : ms;
+            scored.Add((d, s));
         }
+
+        // Pass 2: ベストから15%以内の候補に2手先ボーナスを加算
+        float best1 = float.MinValue;
+        foreach (var (_, s) in scored) if (s > best1) best1 = s;
+        float threshold = best1 - Mathf.Abs(best1) * 0.15f;
+
+        var originalPos = unit.GridPos;
+        for (int i = 0; i < scored.Count; i++)
+        {
+            var (d, s) = scored[i];
+            if (s < threshold) continue;
+
+            unit.GridPos = d;
+            _simUnit     = unit;
+            _simPos      = d;
+
+            float bestFollowUp = float.MinValue;
+            foreach (var d2 in GetValidMoves(unit))
+            {
+                float fs = ScoreMove(unit, d2);
+                if (fs > bestFollowUp) bestFollowUp = fs;
+            }
+
+            _simUnit = null;
+            if (bestFollowUp > 0f)
+                scored[i] = (d, s + _lookaheadDiscount * bestFollowUp);
+        }
+        unit.GridPos = originalPos;
+
+        var dest = unit.GridPos;
+        float bestFinal = float.MinValue;
+        foreach (var (d, s) in scored)
+            if (s > bestFinal) { bestFinal = s; dest = d; }
         return dest;
     }
 

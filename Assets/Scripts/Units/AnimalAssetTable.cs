@@ -10,6 +10,7 @@ public class AnimalAssetTable : ScriptableObject
     {
         public AnimalType type;
         public GameObject prefab;        // visualPrefab
+        public Texture2D  texture;       // モデルに適用するテクスチャ（nullならマテリアルから取得）
         public float      visualScale;   // > 0
         public AudioClip  attackClip;
         public AudioClip  deathClip;

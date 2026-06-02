@@ -3,13 +3,13 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "WildTactics/UIAssetTable")]
 public class UIAssetTable : ScriptableObject
 {
-    public Font   font;
+    public Font font;
 
     [Header("Shaders")]
     [SerializeField] Shader _litShader;
     [SerializeField] Shader _unlitShader;
 
-    public Shader litShader   => _litShader   != null ? _litShader   : Shader.Find("Universal Render Pipeline/Lit");
+    public Shader litShader => _litShader != null ? _litShader : Shader.Find("Universal Render Pipeline/Lit");
     public Shader unlitShader => _unlitShader != null ? _unlitShader : Shader.Find("Universal Render Pipeline/Unlit");
 
 #if UNITY_EDITOR

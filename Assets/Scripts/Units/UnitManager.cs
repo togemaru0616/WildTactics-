@@ -138,7 +138,13 @@ public class UnitManager : MonoBehaviour
                 for (int i = 0; i < src.Length; i++)
                 {
                     var m = new Material(unlitShader);
-                    if (src[i] != null)
+                    // entry.texture が直接指定されていればそれを使う、なければマテリアルから取得
+                    if (entry.texture != null)
+                    {
+                        m.mainTexture = entry.texture;
+                        m.color = Color.white * 10f;
+                    }
+                    else if (src[i] != null)
                     {
                         m.mainTexture = BrightenTexture(src[i].mainTexture, 3f);
                         m.color = src[i].color * 10f;

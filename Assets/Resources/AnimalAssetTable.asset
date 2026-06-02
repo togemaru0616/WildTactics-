@@ -11,85 +11,117 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e94326e3106de8448375b97031f2b7c, type: 3}
   m_Name: AnimalAssetTable
-  m_EditorClassIdentifier:
+  m_EditorClassIdentifier: 
   entries:
   - type: 0
     prefab: {fileID: 7359655724910758988, guid: a838ec8ea7d24c544b5e48e5aba36cdc, type: 3}
+    texture: {fileID: 2800000, guid: 6dfa57f40892b2044ad372128be3c21a, type: 3}
     visualScale: 0.4
     attackClip: {fileID: 8300000, guid: 90d2d001a308d8e4eaa4948bc2b856fb, type: 3}
     deathClip: {fileID: 8300000, guid: 1f2f4918e73f81849a0e584ad2ff08cc, type: 3}
+    attackVolumeMult: 1
   - type: 1
     prefab: {fileID: 1390276149824892, guid: c5e7161780bfc06459e1d0fd1cefd777, type: 3}
+    texture: {fileID: 2800000, guid: 13387d8d6a0752545bdb9d6afc166724, type: 3}
     visualScale: 0.4
     attackClip: {fileID: 8300000, guid: 542b85ed04e26d342ba39e313810cb93, type: 3}
     deathClip: {fileID: 8300000, guid: 41036bc3281be5444a867cd3d68c609b, type: 3}
+    attackVolumeMult: 1
   - type: 2
     prefab: {fileID: 2640427843547389826, guid: 3a0231a7c7cebc94a9c879da75e5394c, type: 3}
+    texture: {fileID: 2800000, guid: 3d021571ce6a47843b468dc05224249b, type: 3}
     visualScale: 0.4
     attackClip: {fileID: 8300000, guid: be41c130f0743d94184240f176a1006e, type: 3}
     deathClip: {fileID: 8300000, guid: f74fabfa9a9d64949b37700eabe5cbe6, type: 3}
+    attackVolumeMult: 1
   - type: 3
-    prefab: {fileID: 1791417161093438, guid: 166de651131410845bbf9789550f6ea0, type: 3}
+    prefab: {fileID: 1791417161093438, guid: 57a429f4b3b3c754e975b792ed61d63a, type: 3}
+    texture: {fileID: 2800000, guid: e22247386f368462eadc1d0ef7c15be7, type: 3}
     visualScale: 0.6
     attackClip: {fileID: 8300000, guid: 7fb7cedf73f39714d9adba63676ede63, type: 3}
     deathClip: {fileID: 8300000, guid: 20b39e2ab683e9f4cb87a3b340298787, type: 3}
+    attackVolumeMult: 1
   - type: 4
     prefab: {fileID: 994537013139176287, guid: d3517ef964b038b4a8b796f8f3c79849, type: 3}
+    texture: {fileID: 2800000, guid: b46342a24b44dbf48b777e24e980eb83, type: 3}
     visualScale: 0.4
     attackClip: {fileID: 8300000, guid: 3984ead54160dcb46a227e83030f7b1c, type: 3}
     deathClip: {fileID: 8300000, guid: 2e0e1065c5e58144192d67daed00b468, type: 3}
+    attackVolumeMult: 1
   - type: 5
     prefab: {fileID: 1390276149824892, guid: cea42b34a5d5b484388618dcd553dccb, type: 3}
+    texture: {fileID: 2800000, guid: 3c8d78b7bfc75434faf65248f0f275e0, type: 3}
     visualScale: 0.5
     attackClip: {fileID: 8300000, guid: d7145e725630df649afe912c099762ef, type: 3}
     deathClip: {fileID: 8300000, guid: a57e7b80c9d8f2f4f8e046cfb187b5ee, type: 3}
+    attackVolumeMult: 1
   - type: 6
     prefab: {fileID: 6419678248362677416, guid: 8c8a22ddff71f284b87ca2537e62b2ac, type: 3}
+    texture: {fileID: 2800000, guid: e948437c14d1ea843b96d058b63ed259, type: 3}
     visualScale: 0.3
     attackClip: {fileID: 8300000, guid: 3cdaca2358193524bbbfdcf8027bd424, type: 3}
     deathClip: {fileID: 8300000, guid: f0c4de9f206b7224183f3894cf7a6ed4, type: 3}
+    attackVolumeMult: 1
   - type: 7
     prefab: {fileID: 6481239469565288174, guid: ea1de200ad74a4cf1b54c8d73aafeab1, type: 3}
+    texture: {fileID: 2800000, guid: 5c05d7d1f58634ba3824dc2af6538a47, type: 3}
     visualScale: 0.4
     attackClip: {fileID: 8300000, guid: bed2844c77965504183fad6dd4d10407, type: 3}
     deathClip: {fileID: 8300000, guid: 6aa18c8ce0b8242499acc9f469a290d5, type: 3}
+    attackVolumeMult: 1
   - type: 8
-    prefab: {fileID: 1827545206396254, guid: b18f11080da58d0449ec9da835a6123a, type: 3}
+    prefab: {fileID: 1827545206396254, guid: d1b394efe4dbeb14f8a20e2e04bf1d80, type: 3}
+    texture: {fileID: 2800000, guid: 7d7a1d9ba526d1a4b8c262fec3e5bde6, type: 3}
     visualScale: 0.4
     attackClip: {fileID: 8300000, guid: 91a8aa57f2b21fc45873f75ce9a4b3ff, type: 3}
     deathClip: {fileID: 8300000, guid: 5e5519cab0a83964284ba72707ff8332, type: 3}
+    attackVolumeMult: 1
   - type: 9
     prefab: {fileID: 4623556101495578335, guid: 1ef54cdace3ccbe438a80867c3b80014, type: 3}
+    texture: {fileID: 2800000, guid: ed552f1683e02514f9e3f4c88adb4521, type: 3}
     visualScale: 0.7
     attackClip: {fileID: 8300000, guid: 77649c4219b3fb84ba24a76338490292, type: 3}
     deathClip: {fileID: 8300000, guid: 65404d12daa4eb146800a9205cf4ff49, type: 3}
+    attackVolumeMult: 1
   - type: 10
     prefab: {fileID: 4902784228540578356, guid: 4f8418584f191a347a9c0fce3251b89f, type: 3}
+    texture: {fileID: 2800000, guid: 65706286b2c6961458237741a0f5c0d1, type: 3}
     visualScale: 0.25
     attackClip: {fileID: 8300000, guid: 9b6d55aaf5dfee146864c95dbbd43b4e, type: 3}
     deathClip: {fileID: 8300000, guid: 7dfc530a2d0ebf741928c47762a19545, type: 3}
+    attackVolumeMult: 1
   - type: 11
     prefab: {fileID: 5202619548916351454, guid: 002fabc7804b9424d8323a6905a573dd, type: 3}
+    texture: {fileID: 2800000, guid: 3478db07b312bab45bb5a75bf7ef62d9, type: 3}
     visualScale: 0.25
     attackClip: {fileID: 8300000, guid: 9ce17616412ee4a4792ce5f7f085229c, type: 3}
     deathClip: {fileID: 8300000, guid: 1f2eb0636af351c47aa8b8d35a62862d, type: 3}
+    attackVolumeMult: 1
   - type: 12
     prefab: {fileID: 1294271778169428, guid: d19dd43872ee43b4896d75d23e9db9e6, type: 3}
+    texture: {fileID: 2800000, guid: 146875d2f8b917146bffa1db7a326bc8, type: 3}
     visualScale: 0.2
     attackClip: {fileID: 8300000, guid: 2b452574e42ea66459782e2c766a7ecc, type: 3}
     deathClip: {fileID: 8300000, guid: ce6abd7d8bc61764da33c2302b624137, type: 3}
+    attackVolumeMult: 1
   - type: 13
     prefab: {fileID: 6030499686730131976, guid: 506e6391c8fd0424fa507dd1b1614119, type: 3}
+    texture: {fileID: 2800000, guid: e363a4fbc3e73524e99b2ec37e4abd79, type: 3}
     visualScale: 0.6
     attackClip: {fileID: 8300000, guid: 38081b7a6dafc1c43a6a065bd41ad0b9, type: 3}
     deathClip: {fileID: 8300000, guid: 808f750de7806ae4fa0f632e5377e75e, type: 3}
+    attackVolumeMult: 1
   - type: 14
     prefab: {fileID: 4110389905568385177, guid: 3bd169e089b38f745bfd0a1bcd413a94, type: 3}
+    texture: {fileID: 2800000, guid: 7b8d39cb713e3da43b588b61032f7164, type: 3}
     visualScale: 0.5
     attackClip: {fileID: 8300000, guid: ff9baac55ca23834687e0aee8e0f389d, type: 3}
     deathClip: {fileID: 8300000, guid: 03685168821cb134b8a7735916d0dd4d, type: 3}
+    attackVolumeMult: 1
   - type: 15
     prefab: {fileID: 8990919831054144725, guid: a529c3f5898112949a588faa65ffed55, type: 3}
+    texture: {fileID: 2800000, guid: bf2f0a19bb437c84ca1306a833e47c30, type: 3}
     visualScale: 0.4
     attackClip: {fileID: 8300000, guid: 13666d26c8762ab42a9176705f31fdd7, type: 3}
     deathClip: {fileID: 8300000, guid: 5e58f2375ff414e4f82c36460bfd0b92, type: 3}
+    attackVolumeMult: 1

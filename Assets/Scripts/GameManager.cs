@@ -219,7 +219,7 @@ public class GameManager : MonoBehaviour
         videoRt.anchorMin        = new Vector2(0.5f, 0.5f);
         videoRt.anchorMax        = new Vector2(0.5f, 0.5f);
         videoRt.pivot            = new Vector2(0.5f, 0.5f);
-        videoRt.anchoredPosition = new Vector2(0f, localWon ? 50f : 9f);
+        videoRt.anchoredPosition = new Vector2(0f, localWon ? 20f : 9f);
         videoRt.sizeDelta        = new Vector2(675f, 0f);
         var arf = videoGo.AddComponent<AspectRatioFitter>();
         arf.aspectMode  = AspectRatioFitter.AspectMode.WidthControlsHeight;

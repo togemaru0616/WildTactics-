@@ -13,7 +13,7 @@ public class AnimalUnit : MonoBehaviour
     public int        MaxHP       { get; private set; }
     public int        CurrentHP   { get; private set; }
     public int        AttackPower { get; private set; }
-    public Vector2Int GridPos     { get; private set; }
+    public Vector2Int GridPos     { get; internal set; }
     public bool       IsMoving         { get; private set; }
     public bool       IsDead           { get; private set; }
     public bool       IsActing         => IsMoving || _isAttacking;
@@ -93,6 +93,9 @@ public class AnimalUnit : MonoBehaviour
             // 前回の参照をクリアしてから新規追加
             _sound = null;
             _sound = gameObject.AddComponent<AnimalSoundController>();
+            // AnimatorはモデルのchildにあるためAnimationEventの受け取りには同一GOへのアタッチが必要
+            if (_animator != null && _animator.gameObject != gameObject)
+                _animator.gameObject.AddComponent<AnimalSoundController>();
             var entry = AnimalAssetTable.Instance?.Get(AnimalType);
             _sound.Init(entry?.attackClip, entry?.deathClip, entry?.attackVolumeMult ?? 1f);
 
@@ -252,7 +255,7 @@ public class AnimalUnit : MonoBehaviour
         var   tile    = GridManager.Instance.GetTile(dest.x, dest.y);
         float mult    = tile != null ? AnimalDefinitions.GetTerrainMult(AnimalType, tile.Type) : 1f;
         int   dist    = Mathf.Max(Mathf.Abs(dest.x - fromPos.x), Mathf.Abs(dest.y - fromPos.y));
-        float moveDur = AnimalDefinitions.GetMoveTime(AnimalType) * mult * (dist >= 2 ? 1.5f : 1f);
+        float moveDur = AnimalDefinitions.GetMoveTime(AnimalType) * mult * (dist >= 2 ? 0.85f : 1f);
 
         // 移動開始と同時に論理位置を確定（他ユニットが目的地に侵入するのを防ぐ）
         UnitManager.Instance.NotifyMoved(this, fromPos, dest);
@@ -275,7 +278,7 @@ public class AnimalUnit : MonoBehaviour
             yield break;
         }
 
-        SetAnim(AnimState.Walk);
+        SetAnim(dist >= 2 ? AnimState.Run : AnimState.Walk);
         FaceToward(GridManager.Instance.TileToWorld(dest.x, dest.y));
 
         Vector3 from = transform.position;
@@ -490,6 +493,7 @@ public class AnimalUnit : MonoBehaviour
         UpdateHPBar();
         ShowHPBar();
         _sound?.PlayHit();
+        if (!_isAttacking && !IsMoving && !SimMode) StartCoroutine(PlayHurtAnim());
         if (OutpostManager.Instance != null) OutpostManager.Instance.NotifyUnitDamaged(GridPos);
         if (CurrentHP <= 0) Die(attacker);
     }
@@ -539,7 +543,7 @@ public class AnimalUnit : MonoBehaviour
 
     // ---- アニメーション ----
 
-    enum AnimState { Idle, Walk, Attack, Death }
+    enum AnimState { Idle, Walk, Run, Attack, Death, Hurt }
 
     void SetAnim(AnimState s)
     {
@@ -547,27 +551,64 @@ public class AnimalUnit : MonoBehaviour
         switch (s)
         {
             case AnimState.Idle:
-                var h = Animator.StringToHash("Idle");
-                if (!_animator.HasState(0, h)) h = Animator.StringToHash("idle");
-                if (_animator.HasState(0, h)) _animator.CrossFade(h, 0.15f);
+                ResetStateBools();
+                CrossFadeState("Idle", "idle");
                 break;
             case AnimState.Walk:
-                TrySetTrigger("isWalking");
+                ResetStateBools();
+                TrySetBool("isWalking", true);
+                CrossFadeState("Walk", "walk", "Slither"); // Snake: Slither
+                break;
+            case AnimState.Run:
+                ResetStateBools();
+                TrySetBool("isRunning", true);
+                CrossFadeState("Run", "run");
                 break;
             case AnimState.Attack:
-                TrySetTrigger("isAttacking");
+                ResetStateBools();
+                CrossFadeState("Attack", "attack");
                 break;
             case AnimState.Death:
-                TrySetTrigger("isDead");
+                ResetStateBools();
+                CrossFadeState("Death", "dead");
+                break;
+            case AnimState.Hurt:
+                TrySetBool("isChestHit", true);
                 break;
         }
     }
 
-    void TrySetTrigger(string n)
+    void ResetStateBools()
+    {
+        TrySetBool("isWalking",  false);
+        TrySetBool("isRunning",  false);
+        TrySetBool("isChestHit", false);
+    }
+
+    // CrossFade で即座にステートに入る（HasExitTime をバイパス）
+    // Bool は別途 TrySetBool で true にしてステートをキープする
+    void CrossFadeState(params string[] names)
+    {
+        foreach (var name in names)
+        {
+            var h = Animator.StringToHash(name);
+            if (_animator.HasState(0, h)) { _animator.CrossFade(h, 0.1f); return; }
+        }
+    }
+
+    bool TrySetBool(string n, bool value)
     {
         foreach (var p in _animator.parameters)
-            if (p.name == n && p.type == AnimatorControllerParameterType.Trigger)
-            { _animator.SetTrigger(n); return; }
+            if (p.name == n && p.type == AnimatorControllerParameterType.Bool)
+            { _animator.SetBool(n, value); return true; }
+        return false;
+    }
+
+    IEnumerator PlayHurtAnim()
+    {
+        SetAnim(AnimState.Hurt);
+        yield return new WaitForSeconds(0.7f);
+        if (!IsDead && !_isAttacking && !IsMoving) SetAnim(AnimState.Idle);
     }
 
     void CacheAnimDurations()
