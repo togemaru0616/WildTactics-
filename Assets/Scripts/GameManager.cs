@@ -295,7 +295,7 @@ public class GameManager : MonoBehaviour
     {
         while (notifText != null)
         {
-            if (OnlineGame.RemoteGoesToTitle || !OnlineManager.IsConnected)
+            if (OnlineGame.RemoteGoesToTitle || OnlineManager.Instance != null && !OnlineManager.Instance.IsConnected)
             {
                 // 相手がTitleに戻った or 切断 → Retryを無効化
                 retryBtn.interactable = false;
