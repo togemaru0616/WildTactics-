@@ -121,6 +121,22 @@ public class OnlineGame : MonoBehaviour, IOnEventCallback
         PhotonNetwork.RaiseEvent(EV_REMATCH_REQUEST, null, ToOthers, Reliable);
         ShowLoading(CancelRematch);
         TryStartRematch();
+        StartCoroutine(WatchDisconnectWhileWaiting());
+    }
+
+    IEnumerator WatchDisconnectWhileWaiting()
+    {
+        while (_localRematchReady)
+        {
+            if (OnlineManager.Instance != null && !OnlineManager.Instance.IsConnected)
+            {
+                _localRematchReady = false;
+                HideLoading();
+                GoToTitleSafe();
+                yield break;
+            }
+            yield return new WaitForSeconds(0.5f);
+        }
     }
 
     // リマッチ待機中にキャンセルを押したとき

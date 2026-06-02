@@ -266,7 +266,6 @@ public class GameManager : MonoBehaviour
             retryColors.disabledColor = new Color(0f, 0f, 0f, 0.65f);
             retryBtn.colors = retryColors;
 
-            // 通知背景
             var notifBgGo = new GameObject("RematchNotifBg");
             notifBgGo.transform.SetParent(cGo.transform, false);
             notifBgGo.AddComponent<Image>().color = new Color(0f, 0f, 0f, 0.72f);
@@ -274,8 +273,9 @@ public class GameManager : MonoBehaviour
             notifBgRt.anchorMin        = new Vector2(0.05f, 0.5f);
             notifBgRt.anchorMax        = new Vector2(0.95f, 0.5f);
             notifBgRt.pivot            = new Vector2(0.5f, 1f);
-            notifBgRt.anchoredPosition = new Vector2(0f, -400f);
+            notifBgRt.anchoredPosition = new Vector2(0f, -320f);
             notifBgRt.sizeDelta        = new Vector2(0f, 90f);
+            notifBgGo.SetActive(false);
 
             var notifGo = new GameObject("RematchNotif");
             notifGo.transform.SetParent(cGo.transform, false);
@@ -289,26 +289,30 @@ public class GameManager : MonoBehaviour
             notifRt.anchorMin        = new Vector2(0.05f, 0.5f);
             notifRt.anchorMax        = new Vector2(0.95f, 0.5f);
             notifRt.pivot            = new Vector2(0.5f, 1f);
-            notifRt.anchoredPosition = new Vector2(0f, -400f);
+            notifRt.anchoredPosition = new Vector2(0f, -320f);
             notifRt.sizeDelta        = new Vector2(0f, 90f);
-            StartCoroutine(WatchRemoteRematch(notifTxt, retryBtn));
+            StartCoroutine(WatchRemoteRematch(notifTxt, notifBgGo, retryBtn));
         }
     }
 
-    IEnumerator WatchRemoteRematch(Text notifText, Button retryBtn)
+    IEnumerator WatchRemoteRematch(Text notifText, GameObject notifBg, Button retryBtn)
     {
         while (notifText != null)
         {
+            string msg = null;
             if (OnlineGame.RemoteGoesToTitle || OnlineManager.Instance != null && !OnlineManager.Instance.IsConnected)
             {
-                // 相手がTitleに戻った or 切断 → Retryを無効化
                 retryBtn.interactable = false;
-                notifText.text = "相手がタイトルに戻りました";
+                msg = "相手がタイトルに戻りました";
             }
             else if (OnlineGame.RemoteWantsRematch)
             {
-                // 相手がRetryを押した → 通知表示（こちらのRetryは既に有効）
-                notifText.text = "相手がリマッチを希望しています";
+                msg = "相手がリマッチを希望しています";
+            }
+            if (msg != null)
+            {
+                notifText.text = msg;
+                if (notifBg != null) notifBg.SetActive(true);
             }
             yield return new WaitForSeconds(0.3f);
         }
