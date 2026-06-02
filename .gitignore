@@ -3,6 +3,7 @@
 [Oo]bj/
 [Bb]uild/
 !WebGL-Build/
+!WebGL-Build/Build/
 !WebGL-Build-Dev/
 !WebGL-Build-Dev/Build/
 [Bb]uilds/

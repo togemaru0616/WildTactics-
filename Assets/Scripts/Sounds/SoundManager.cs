@@ -88,7 +88,6 @@ public class SoundManager : MonoBehaviour
         var inSrc  = outSrc == _bgmA ? _bgmB : _bgmA;
         _activeSrc = inSrc;
 
-        float target   = BgmBase * BgmVolume;
         float startVol = outSrc.isPlaying ? outSrc.volume : 0f;
         float fadeOut  = outSrc.isPlaying ? FadeOutDur : 0f;
         float duration = Mathf.Max(fadeOut, FadeInDur);
@@ -105,14 +104,14 @@ public class SoundManager : MonoBehaviour
             float tIn  = Mathf.Clamp01(elapsed / FadeInDur);
 
             outSrc.volume = Mathf.Lerp(startVol, 0f, tOut);
-            inSrc.volume  = Mathf.Lerp(0f, target, tIn);
+            inSrc.volume  = Mathf.Lerp(0f, BgmBase * BgmVolume, tIn);  // フェード中の音量変更にも追従
 
             yield return null;
         }
 
         outSrc.Stop();
         outSrc.clip   = null;
-        inSrc.volume  = target;
+        inSrc.volume  = BgmBase * BgmVolume;
         _fadeCo = null;
     }
 
@@ -135,8 +134,11 @@ public class SoundManager : MonoBehaviour
     public static void SetBgmVolume(float v)
     {
         BgmVolume = v;
-        if (Instance != null) Instance._activeSrc.volume = BgmBase * v;
+        // フェード中は CrossFade が動的に BgmVolume を参照するので直接上書きしない
+        if (Instance != null && Instance._fadeCo == null)
+            Instance._activeSrc.volume = BgmBase * v;
         PlayerPrefs.SetFloat("vol_bgm", v);
+        PlayerPrefs.Save();
     }
 
     public static void MuteBgm(bool mute)
@@ -150,11 +152,13 @@ public class SoundManager : MonoBehaviour
         SeVolume = v;
         if (Instance != null) Instance._seSrc.volume = v;
         PlayerPrefs.SetFloat("vol_se", v);
+        PlayerPrefs.Save();
     }
 
     public static void SetAnimalVolume(float v)
     {
         AnimalVolume = v;
         PlayerPrefs.SetFloat("vol_animal", v);
+        PlayerPrefs.Save();
     }
 }

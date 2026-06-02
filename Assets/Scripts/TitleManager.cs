@@ -537,7 +537,7 @@ public class TitleManager : MonoBehaviour
     {
         if (_limitButtons == null) return;
         int[] vals = { 1, 2, 0 };
-        int cur = UnityEngine.PlayerPrefs.GetInt("active_limit", 1);
+        int cur = UnityEngine.PlayerPrefs.GetInt("active_limit", 0);
         for (int i = 0; i < _limitButtons.Length; i++)
             _limitButtons[i].GetComponent<Image>().color = cur == vals[i] ? ColSelected : ColNormal;
     }

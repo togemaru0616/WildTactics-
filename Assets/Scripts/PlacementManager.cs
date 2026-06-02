@@ -1034,7 +1034,9 @@ public class PlacementManager : MonoBehaviour
 
         // ステータス2列（下部58%）
         string timeStr  = GameManager.BattleTimeLimit <= 0f ? "制限なし" : $"{(int)(GameManager.BattleTimeLimit / 60)}分";
-        int    lim      = PlayerPrefs.GetInt("active_limit", 0);
+        int    lim      = OnlineManager.IsOnline && OnlineManager.OnlineActiveLimit >= 0
+                            ? OnlineManager.OnlineActiveLimit
+                            : PlayerPrefs.GetInt("active_limit", 0);
         string limitStr = lim == 0 ? "無制限" : $"{lim}匹";
         string opponent = OnlineManager.IsOnline && PhotonNetwork.PlayerListOthers.Length > 0
             ? PhotonNetwork.PlayerListOthers[0].NickName : "CPU";

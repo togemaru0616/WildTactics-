@@ -265,17 +265,13 @@ public class GameManager : MonoBehaviour
         var retryBtn = MakeResultButton(cGo.transform, "Retry", -188f, -540f, 315f, 120f, Rematch);
         MakeResultButton(cGo.transform, "Title", 188f, -540f, 315f, 120f, ReturnToTitle);
 
-        // ⑤ オンライン時：Retryをデフォルト無効 + 相手状態の監視
+        // ⑤ オンライン時：相手状態の監視
         if (OnlineManager.IsOnline)
         {
-            // Retry を暗転・無効化
-            retryBtn.interactable = false;
-            var dimGo = new GameObject("RetryDim");
-            dimGo.transform.SetParent(retryBtn.transform, false);
-            dimGo.AddComponent<Image>().color = new Color(0f, 0f, 0f, 0.6f);
-            var dimRt = dimGo.GetComponent<RectTransform>();
-            dimRt.anchorMin = Vector2.zero; dimRt.anchorMax = Vector2.one;
-            dimRt.offsetMin = dimRt.offsetMax = Vector2.zero;
+            // 無効時に Button の Image が暗転するよう disabledColor を設定
+            var retryColors = retryBtn.colors;
+            retryColors.disabledColor = new Color(0f, 0f, 0f, 0.65f);
+            retryBtn.colors = retryColors;
 
             var notifGo = new GameObject("RematchNotif");
             notifGo.transform.SetParent(cGo.transform, false);
@@ -291,11 +287,11 @@ public class GameManager : MonoBehaviour
             notifRt.pivot            = new Vector2(0.5f, 1f);
             notifRt.anchoredPosition = new Vector2(0f, -410f);
             notifRt.sizeDelta        = new Vector2(0f, 60f);
-            StartCoroutine(WatchRemoteRematch(notifTxt, retryBtn, dimGo));
+            StartCoroutine(WatchRemoteRematch(notifTxt, retryBtn));
         }
     }
 
-    IEnumerator WatchRemoteRematch(Text notifText, Button retryBtn, GameObject retryDim)
+    IEnumerator WatchRemoteRematch(Text notifText, Button retryBtn)
     {
         while (notifText != null)
         {
@@ -303,14 +299,11 @@ public class GameManager : MonoBehaviour
             {
                 // 相手がTitleに戻った → Retryを無効化（RemoteWantsRematchより優先）
                 retryBtn.interactable = false;
-                if (retryDim != null) retryDim.SetActive(true);
                 notifText.text = "相手がタイトルに戻りました";
             }
-            else if (OnlineGame.RemoteWantsRematch && !retryBtn.interactable)
+            else if (OnlineGame.RemoteWantsRematch)
             {
-                // 相手がRetryを押した → こちらのRetryを有効化
-                retryBtn.interactable = true;
-                if (retryDim != null) retryDim.SetActive(false);
+                // 相手がRetryを押した → 通知表示（こちらのRetryは既に有効）
                 notifText.text = "相手がリマッチを希望しています";
             }
             yield return new WaitForSeconds(0.3f);

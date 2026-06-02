@@ -23,6 +23,10 @@ public class OnlineManager : MonoBehaviourPunCallbacks
 
     static float _savedBattleTime    = 0f;
     static float _savedPlacementTime = 0f;
+    static GridManager.GridSizePreset _savedPreset;
+    static bool _presetSaved    = false;
+    static bool _savedFogEnemy;
+    static bool _fogEnemySaved  = false;
 
     // --- UI 表示用 ---
     public string StatusText { get; private set; } = "";
@@ -92,6 +96,8 @@ public class OnlineManager : MonoBehaviourPunCallbacks
         OnlineActiveLimit = -1;
         if (_savedBattleTime    > 0f) { GameManager.BattleTimeLimit = _savedBattleTime;    _savedBattleTime    = 0f; }
         if (_savedPlacementTime > 0f) { PlacementManager.TotalTime  = _savedPlacementTime; _savedPlacementTime = 0f; }
+        if (_presetSaved)   { GridManager.SelectedPreset    = _savedPreset;    _presetSaved   = false; }
+        if (_fogEnemySaved) { FogManager.ShowEnemyInFog     = _savedFogEnemy;  _fogEnemySaved = false; }
 
         if (PhotonNetwork.IsConnected) PhotonNetwork.Disconnect();
     }
@@ -134,10 +140,14 @@ public class OnlineManager : MonoBehaviourPunCallbacks
             PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable
             {
                 ["seed"]           = seed,
-                ["active_limit"]   = PlayerPrefs.GetInt("active_limit", 1),
+                ["active_limit"]   = PlayerPrefs.GetInt("active_limit", 0),
                 ["battle_time"]    = GameManager.BattleTimeLimit,
                 ["placement_time"] = PlacementManager.TotalTime,
+                ["grid_preset"]    = (int)GridManager.SelectedPreset,
             });
+            // 霧越し表示は公平性のため強制無効
+            if (!_fogEnemySaved) { _savedFogEnemy = FogManager.ShowEnemyInFog; _fogEnemySaved = true; }
+            FogManager.ShowEnemyInFog = false;
             StatusText = "相手の接続を待っています...";
             _keepAlive = StartCoroutine(KeepAlive());
         }
@@ -184,6 +194,14 @@ public class OnlineManager : MonoBehaviourPunCallbacks
             _savedPlacementTime    = PlacementManager.TotalTime;
             PlacementManager.TotalTime = (float)pt;
         }
+        if (props.TryGetValue("grid_preset", out var gp))
+        {
+            if (!_presetSaved) { _savedPreset = GridManager.SelectedPreset; _presetSaved = true; }
+            GridManager.SelectedPreset = (GridManager.GridSizePreset)(int)gp;
+        }
+        // 霧越し表示は公平性のため強制無効
+        if (!_fogEnemySaved) { _savedFogEnemy = FogManager.ShowEnemyInFog; _fogEnemySaved = true; }
+        FogManager.ShowEnemyInFog = false;
     }
 
     public override void OnLeftRoom()

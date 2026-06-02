@@ -56,8 +56,9 @@ public class AnimalUnit : MonoBehaviour
 
     float _attackAnimDur = 0.8f;   // 攻撃クリップ実長（Awakeでキャッシュ）
 
-    // 毎フレーム new しないための再利用バッファ
+    // 毎フレーム new しないための再利用バッファ・待機オブジェクト
     readonly List<AnimalUnit> _enemiesBuffer = new(8);
+    static readonly WaitForSeconds _waitAttackTick = new(0.1f);
 
     // コルーチン参照（Die時に個別停止するため）
     Coroutine _autoAttackCo;
@@ -332,7 +333,7 @@ public class AnimalUnit : MonoBehaviour
                 continue;
             }
 
-            yield return new WaitUntil(() => CanAttack);
+            while (!CanAttack) yield return _waitAttackTick;
 
             if (!CanAttack) { yield return null; continue; }
 
@@ -464,6 +465,27 @@ public class AnimalUnit : MonoBehaviour
             _pendingMoveTarget = null;
             MoveTo(queued);
         }
+    }
+
+    // オンライン: 相手端末の攻撃アニメーションとダメージをローカルと同じタイミングで処理
+    public void PlayRemoteAttack(AnimalUnit target, int damage)
+    {
+        if (SimMode || IsDead || target == null) return;
+        StartCoroutine(RemoteAttackAnim(target, damage));
+    }
+
+    IEnumerator RemoteAttackAnim(AnimalUnit target, int damage)
+    {
+        _isAttacking = true;
+        FaceToward(target.transform.position);
+        SetAnim(AnimState.Attack);
+        _sound?.PlayAttack();
+        yield return new WaitForSeconds(_attackAnimDur * 0.4f);
+        if (!IsDead && target != null && !target.IsDead)
+            target.TakeDamage(damage, this);
+        yield return new WaitForSeconds(_attackAnimDur * 0.6f);
+        if (!IsDead) { SetAnim(AnimState.Idle); RestoreDefaultFacing(); }
+        _isAttacking = false;
     }
 
     // ---- ダメージ・死亡 ----

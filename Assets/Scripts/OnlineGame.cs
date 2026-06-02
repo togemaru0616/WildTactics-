@@ -221,7 +221,8 @@ public class OnlineGame : MonoBehaviour, IOnEventCallback
                 var da  = (int[])ev.CustomData;
                 var tgt = UnitManager.Instance?.GetUnitByNetId(da[0]);
                 var atk = da[2] >= 0 ? UnitManager.Instance?.GetUnitByNetId(da[2]) : null;
-                tgt?.TakeDamage(da[1], atk);
+                if (atk != null) atk.PlayRemoteAttack(tgt, da[1]);
+                else             tgt?.TakeDamage(da[1], null);
                 break;
 
             case EV_POISON:

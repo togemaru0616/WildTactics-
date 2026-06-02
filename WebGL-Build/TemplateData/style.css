@@ -1,7 +1,7 @@
 body { padding: 0; margin: 0; background: #231F20; width: 100vw; height: 100vh; height: 100dvh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 #unity-container { position: relative }
 #unity-container.unity-desktop { width: min(100vw, 56.22vh); height: min(100vh, 177.87vw); }
-#unity-container.unity-mobile { position: fixed; width: 100%; height: 100% }
+#unity-container.unity-mobile { position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(100svw, 56.22svh); height: min(100svh, 177.87svw); }
 #unity-canvas { background: #231F20; width: 100%; height: 100%; }
 .unity-mobile #unity-canvas { width: 100%; height: 100% }
 #unity-loading-bar { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: none }
