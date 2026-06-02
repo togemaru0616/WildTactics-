@@ -35,3 +35,13 @@ crashlytics-build.properties
 
 .claude/settings.local.json
 Assets/ThirdParty/
+Assets/polyperfect/
+Assets/polyperfect.meta
+Assets/Scripts/ThirdPartyStubs/
+Assets/Scripts/ThirdPartyStubs.meta
+Assets/Resources/AnimalSolidColors.meta
+Assets/Editor/
+Assets/Resources/PerformanceTestRunInfo.json
+Assets/Resources/PerformanceTestRunInfo.json.meta
+Assets/Resources/PerformanceTestRunSettings.json
+Assets/Resources/PerformanceTestRunSettings.json.meta
