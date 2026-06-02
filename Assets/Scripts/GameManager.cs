@@ -177,7 +177,7 @@ public class GameManager : MonoBehaviour
         if (OnlineManager.IsOnline && winner != 0)
         {
             int    local = OnlineManager.LocalPlayer;
-            string name  = UnityEngine.PlayerPrefs.GetString("player_name", "Player");
+            string name  = UnityEngine.PlayerPrefs.GetString("PlayerName", "Player");
             bool   won   = winner == local;
             MatchHistoryManager.Save(new MatchRecord(name, won, System.DateTime.Now.ToString("yyyy/MM/dd")));
         }
@@ -227,21 +227,14 @@ public class GameManager : MonoBehaviour
         var renderTex = new RenderTexture(1920, 1080, 0);
         rawImg.texture = renderTex;
         var vp = videoGo.AddComponent<VideoPlayer>();
-        vp.renderMode    = VideoRenderMode.RenderTexture;
-        vp.targetTexture = renderTex;
-        vp.playOnAwake   = false;
-        vp.isLooping     = false;
+        vp.renderMode       = VideoRenderMode.RenderTexture;
+        vp.targetTexture    = renderTex;
+        vp.playOnAwake      = false;
+        vp.isLooping        = false;
+        vp.audioOutputMode  = VideoAudioOutputMode.None;
         vp.url = videoPath;
-        vp.prepareCompleted += p =>
-        {
-            if (p.audioTrackCount > 0) SoundManager.MuteBgm(true);
-            p.Play();
-        };
-        vp.loopPointReached += p =>
-        {
-            p.Pause();
-            SoundManager.MuteBgm(false);
-        };
+        vp.prepareCompleted += p => p.Play();
+        vp.loopPointReached += p => p.Pause();
         vp.Prepare();
 
         // ③ VICTORY / DEFEAT 画像（フレーム部分が透明→動画が透けて見える）
@@ -273,20 +266,31 @@ public class GameManager : MonoBehaviour
             retryColors.disabledColor = new Color(0f, 0f, 0f, 0.65f);
             retryBtn.colors = retryColors;
 
+            // 通知背景
+            var notifBgGo = new GameObject("RematchNotifBg");
+            notifBgGo.transform.SetParent(cGo.transform, false);
+            notifBgGo.AddComponent<Image>().color = new Color(0f, 0f, 0f, 0.72f);
+            var notifBgRt = notifBgGo.GetComponent<RectTransform>();
+            notifBgRt.anchorMin        = new Vector2(0.05f, 0.5f);
+            notifBgRt.anchorMax        = new Vector2(0.95f, 0.5f);
+            notifBgRt.pivot            = new Vector2(0.5f, 1f);
+            notifBgRt.anchoredPosition = new Vector2(0f, -400f);
+            notifBgRt.sizeDelta        = new Vector2(0f, 90f);
+
             var notifGo = new GameObject("RematchNotif");
             notifGo.transform.SetParent(cGo.transform, false);
             var notifTxt = notifGo.AddComponent<Text>();
             notifTxt.font               = UIAssetTable.Instance.font;
-            notifTxt.fontSize           = 30;
-            notifTxt.color              = new Color(1f, 0.9f, 0.3f, 1f);
+            notifTxt.fontSize           = 34;
+            notifTxt.color              = Color.white;
             notifTxt.alignment          = TextAnchor.MiddleCenter;
             notifTxt.horizontalOverflow = HorizontalWrapMode.Wrap;
             var notifRt = notifGo.GetComponent<RectTransform>();
             notifRt.anchorMin        = new Vector2(0.05f, 0.5f);
             notifRt.anchorMax        = new Vector2(0.95f, 0.5f);
             notifRt.pivot            = new Vector2(0.5f, 1f);
-            notifRt.anchoredPosition = new Vector2(0f, -410f);
-            notifRt.sizeDelta        = new Vector2(0f, 60f);
+            notifRt.anchoredPosition = new Vector2(0f, -400f);
+            notifRt.sizeDelta        = new Vector2(0f, 90f);
             StartCoroutine(WatchRemoteRematch(notifTxt, retryBtn));
         }
     }

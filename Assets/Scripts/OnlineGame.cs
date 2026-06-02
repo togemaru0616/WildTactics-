@@ -130,7 +130,7 @@ public class OnlineGame : MonoBehaviour, IOnEventCallback
         _remoteRematchReady = false;
         PhotonNetwork.RaiseEvent(EV_GO_TITLE, null, ToOthers, Reliable);
         HideLoading();
-        PhaseController.Instance?.GoToTitle();
+        GoToTitleSafe();
     }
 
     // 「Title」ボタンを押したとき（相手も強制タイトル帰還）
@@ -138,7 +138,14 @@ public class OnlineGame : MonoBehaviour, IOnEventCallback
     {
         PhotonNetwork.RaiseEvent(EV_GO_TITLE, null, ToOthers, Reliable);
         HideLoading();
-        PhaseController.Instance?.GoToTitle();
+        GoToTitleSafe();
+    }
+
+    void GoToTitleSafe()
+    {
+        var pc = PhaseController.Instance
+              ?? Object.FindFirstObjectByType<PhaseController>();
+        pc?.GoToTitle();
     }
 
     // P1 のみ: 両者 Ready になったらリマッチ開始
@@ -208,12 +215,13 @@ public class OnlineGame : MonoBehaviour, IOnEventCallback
                 {
                     // こちらがRetryを押して待機中 → 即タイトルへ
                     _localRematchReady = false;
-                    PhaseController.Instance?.GoToTitle();
+                    GoToTitleSafe();
                 }
                 else
                 {
-                    // まだRetryを押していない → Retryを無効化するだけ（強制移動なし）
+                    // まだRetryを押していない → カウントダウン後にタイトルへ
                     RemoteGoesToTitle = true;
+                    StartCoroutine(ForcedTitleCountdown());
                 }
                 break;
 
