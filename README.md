@@ -4,7 +4,8 @@
 
 **▶ ブラウザでプレイ（WebGL）**：https://togemaru0616.github.io/WildTactics-/
 
-> スクリーンショット・プレイ動画（後で追加予定）
+[![獣棋 ゲームプレイ](https://img.youtube.com/vi/5XVnS5740JY/maxresdefault.jpg)](https://www.youtube.com/watch?v=5XVnS5740JY)
+
 
 ---
 
