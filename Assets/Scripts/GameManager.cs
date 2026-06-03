@@ -174,7 +174,9 @@ public class GameManager : MonoBehaviour
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
         Debug.Log($"[Game] {reason} → {(winner == 0 ? "引き分け" : $"P{winner} 勝利")}");
 #endif
-        SoundManager.Defeat();
+        bool localWon = OnlineManager.IsOnline ? winner == OnlineManager.LocalPlayer : winner == 1;
+        if (localWon) SoundManager.Victory();
+        else          SoundManager.Defeat();
         if (OnlineManager.IsOnline && winner != 0)
         {
             int    local = OnlineManager.LocalPlayer;
