@@ -3,7 +3,7 @@ using System;
 [Serializable]
 public class AnimalPickWeights
 {
-    // Fox は必須なので除外、残り16体に重みをつける
+    // Fox は必須なので除外、残り15体に重みをつける
     public float Tiger      = 10f;
     public float Bear       = 10f;
     public float Gorilla    = 10f;

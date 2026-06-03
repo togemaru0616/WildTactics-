@@ -295,7 +295,7 @@ public static class AnimalDefinitions
     public static int GetCost(AnimalType type)
         => GetRank(type) switch { AnimalRank.S => 20, AnimalRank.A => 10, _ => 5 };
 
-    public static bool PrefersTerrrain(AnimalType type, TerrainType terrain)
+    public static bool PrefersTerrain(AnimalType type, TerrainType terrain)
         => (_preferredMask[(int)type] & (1u << (int)terrain)) != 0;
 
     // ---- Snake poison constants ----

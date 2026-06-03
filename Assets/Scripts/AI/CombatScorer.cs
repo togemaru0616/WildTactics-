@@ -104,7 +104,7 @@ public static class CombatScorer
         int   owner   = ctx.Owner;
         int   enemy   = ctx.Enemy;
 
-        // ── 1. Attack scoring ─────────────────────────────────────────────
+        // ── 1. 攻撃スコア ────────────────────────────────────────────────
         AtkBuf.Clear();
         ctx.FillAttackable(dest, unitType, AtkBuf);
         foreach (var tgt in AtkBuf)
@@ -129,7 +129,7 @@ public static class CombatScorer
                 score += wSet.RangeAttackBonus;
         }
 
-        // ── 3. Charge ────────────────────────────────────────────────────
+        // ── 2. 突進 ──────────────────────────────────────────────────────
         if (AnimalDefinitions.HasCharge(unitType))
         {
             var off = dest - unitPos;
@@ -150,7 +150,7 @@ public static class CombatScorer
             }
         }
 
-        // ── 6. Fox guard ─────────────────────────────────────────────────
+        // ── 3. Fox 護衛 ───────────────────────────────────────────────────
         if (ctx.TryGetFoxPos(owner, out var foxPos))
         {
             if (unitType != AnimalType.Fox)
@@ -174,18 +174,18 @@ public static class CombatScorer
             }
         }
 
-        // ── 7. Terrain bonus ─────────────────────────────────────────────
-        if (AnimalDefinitions.PrefersTerrrain(unitType, ctx.GetTerrain(dest)))
+        // ── 4. 地形ボーナス ───────────────────────────────────────────────
+        if (AnimalDefinitions.PrefersTerrain(unitType, ctx.GetTerrain(dest)))
             score += wSet.TerrainBonus;
 
-        // ── 8. Camp healing ───────────────────────────────────────────────
+        // ── 5. キャンプ回復 ───────────────────────────────────────────────
         {
             float campUrg = 1f - hpRatio;
             foreach (var cp in ctx.GetKnownCamps())
                 score += w.CampMult * campUrg * (1f / (Manhattan(dest, cp) + 1f)) * wSet.CampBonus;
         }
 
-        // ── 11. Pressure + Formation ──────────────────────────────────────
+        // ── 6. 圧力・隊列 ─────────────────────────────────────────────────
         if (ctx.HasVisibleEnemies)
         {
             int allyHP  = ctx.GetTeamHP(owner);
@@ -203,7 +203,7 @@ public static class CombatScorer
             score -= deviation * deviation * wSet.FormationSpreadPen * 0.1f * fwdDamp;
         }
 
-        // ── 12. Opportunity cost ──────────────────────────────────────────
+        // ── 7. 機会損失コスト ─────────────────────────────────────────────
         {
             CurBuf.Clear();
             ctx.FillAttackable(unitPos, unitType, CurBuf);
@@ -225,7 +225,7 @@ public static class CombatScorer
             }
         }
 
-        // ── 14. 被攻撃ペナルティ ──────────────────────────────────────────
+        // ── 8. 被攻撃ペナルティ ───────────────────────────────────────────
         {
             PenBuf.Clear();
             ctx.FillEnemiesThatCanReach(dest, PenBuf);

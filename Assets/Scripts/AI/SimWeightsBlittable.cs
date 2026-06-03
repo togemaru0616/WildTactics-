@@ -4,23 +4,17 @@ using System.Runtime.InteropServices;
 [StructLayout(LayoutKind.Sequential)]
 public struct AnimalWeightsBlittable
 {
-
     public float FoxMult;
     public float FoxGuardMult;
     public float CampMult;
-
-
     public float FleeThresholdMult;
     public float FormationBias;
 
     public static AnimalWeightsBlittable From(AIWeights w) => new()
     {
-
         FoxMult           = w.FoxMult,
         FoxGuardMult      = w.FoxGuardMult,
         CampMult          = w.CampMult,
-
-
         FleeThresholdMult = w.FleeThresholdMult,
         FormationBias     = w.FormationBias,
     };

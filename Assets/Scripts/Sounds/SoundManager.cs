@@ -51,7 +51,6 @@ public class SoundManager : MonoBehaviour
 
     // ---- BGM ----
 
-
     public static void Title()     => Instance?.PlayBGM(SoundAssetTable.Instance.bgmTitle);
     public static void Placement() => Instance?.PlayBGM(SoundAssetTable.Instance.bgmPlacement);
     public static void Explore()   => Instance?.PlayBGM(SoundAssetTable.Instance.bgmExplore);

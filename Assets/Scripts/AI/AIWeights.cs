@@ -3,11 +3,9 @@ using System;
 [Serializable]
 public class AIWeights
 {
-
     public float FoxMult           = 1.5f;  // Fox攻撃優先倍率          [1~2]
     public float FoxGuardMult      = 1.0f;  // Fox護衛ボーナス倍率      [1~2]
     public float CampMult          = 1.0f;  // キャンプ回復指向倍率     [1~2]
-
 
     public float FleeThresholdMult = 1.0f;  // 低HP時の被攻撃ペナルティ倍率 [1~2]
     public float FormationBias     = 0.0f;  // チーム中心から何タイル前衛を好むか [-2~+2]（固定・学習対象外）

@@ -69,70 +69,49 @@ public class InputHandler : MonoBehaviour
         var shader = UIAssetTable.Instance.unlitShader;
         for (int i = 0; i < HlPoolSize; i++)
         {
-            var go = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-            go.name = "HL";
-            go.transform.localScale = new Vector3(0.80f, 0.008f, 0.80f);
-            Destroy(go.GetComponent<Collider>());
-            go.SetActive(false);
+            var go = CreateHlDisc("HL", shader);
             _hlPool[i] = go;
-            var mat = new Material(shader);
-            mat.SetFloat("_Surface", 1f);
-            mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-            mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-            mat.SetInt("_ZWrite", 0);
-            go.GetComponent<MeshRenderer>().material = mat;
-            _hlMats[i] = mat;
+            _hlMats[i] = go.GetComponent<MeshRenderer>().sharedMaterial;
         }
-        _cantMoveFlash = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-        _cantMoveFlash.name = "CantMoveFlash";
-        _cantMoveFlash.transform.localScale = new Vector3(0.80f, 0.008f, 0.80f);
-        Destroy(_cantMoveFlash.GetComponent<Collider>());
-        _cantMoveFlash.SetActive(false);
-        _cantMoveFlashMat = new Material(shader);
-        _cantMoveFlashMat.SetFloat("_Surface", 1f);
-        _cantMoveFlashMat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-        _cantMoveFlashMat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-        _cantMoveFlashMat.SetInt("_ZWrite", 0);
+        _cantMoveFlash    = CreateHlDisc("CantMoveFlash", shader);
+        _cantMoveFlashMat = _cantMoveFlash.GetComponent<MeshRenderer>().sharedMaterial;
         _cantMoveFlashMat.color = new Color(1f, 0.15f, 0.15f, 0.90f);
         _cantMoveFlashMat.renderQueue = 3000;
-        _cantMoveFlash.GetComponent<MeshRenderer>().material = _cantMoveFlashMat;
     }
 
-    // プールからハイライト1個を借りる
-    void RentOwn(Vector3 pos, Color col, int rq)
+    static GameObject CreateHlDisc(string name, Shader shader)
     {
-        if (_ownHlActive >= HlPoolSize) return;
-        var go  = _hlPool[_ownHlActive];
-        var mat = _hlMats[_ownHlActive];
-        _ownHlActive++;
-        go.transform.position = pos;
-        mat.color        = col;
-        mat.renderQueue  = rq;
-        go.SetActive(true);
+        var go = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+        go.name = name;
+        go.transform.localScale = new Vector3(0.80f, 0.008f, 0.80f);
+        Destroy(go.GetComponent<Collider>());
+        go.SetActive(false);
+        var mat = new Material(shader);
+        mat.SetFloat("_Surface", 1f);
+        mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+        mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+        mat.SetInt("_ZWrite", 0);
+        go.GetComponent<MeshRenderer>().material = mat;
+        return go;
     }
 
-    void RentEnemy(Vector3 pos, Color col, int rq)
+    // プールからハイライト1個を借りる（自ユニット・敵プレビューで共用）
+    void Rent(ref int count, Vector3 pos, Color col, int rq)
     {
-        if (_enemyHlActive >= HlPoolSize) return;
-        var go  = _hlPool[_enemyHlActive];
-        var mat = _hlMats[_enemyHlActive];
-        _enemyHlActive++;
+        if (count >= HlPoolSize) return;
+        var go  = _hlPool[count];
+        var mat = _hlMats[count];
+        count++;
         go.transform.position = pos;
         mat.color       = col;
         mat.renderQueue = rq;
         go.SetActive(true);
     }
 
-    void ReturnOwnHl()
+    void ReturnHl(ref int count)
     {
-        for (int i = 0; i < _ownHlActive; i++) _hlPool[i].SetActive(false);
-        _ownHlActive = 0;
-    }
-
-    void ReturnEnemyHl()
-    {
-        for (int i = 0; i < _enemyHlActive; i++) _hlPool[i].SetActive(false);
-        _enemyHlActive = 0;
+        for (int i = 0; i < count; i++) _hlPool[i].SetActive(false);
+        count = 0;
     }
 
     void Update()
@@ -325,7 +304,7 @@ public class InputHandler : MonoBehaviour
             if (destBlocked)
             {
                 if (isEnemy) _shown.Add((dest, true));
-                RentOwn(new Vector3(dest.x * sp, 0.14f, dest.y * sp), ColP1Attack, 3001);
+                Rent(ref _ownHlActive,new Vector3(dest.x * sp, 0.14f, dest.y * sp), ColP1Attack, 3001);
                 continue;
             }
 
@@ -346,7 +325,7 @@ public class InputHandler : MonoBehaviour
                 if (canPush)
                 {
                     _shown.Add((dest, false));
-                    RentOwn(new Vector3(dest.x * sp, 0.14f, dest.y * sp), ColP1Charge, 3001);
+                    Rent(ref _ownHlActive,new Vector3(dest.x * sp, 0.14f, dest.y * sp), ColP1Charge, 3001);
                 }
                 continue;
             }
@@ -354,12 +333,12 @@ public class InputHandler : MonoBehaviour
             if (isEnemy)
             {
                 _shown.Add((dest, true));
-                RentOwn(new Vector3(dest.x * sp, 0.14f, dest.y * sp), ColP1Attack, 3001);
+                Rent(ref _ownHlActive,new Vector3(dest.x * sp, 0.14f, dest.y * sp), ColP1Attack, 3001);
             }
-            else if (!isEnemy)
+            else
             {
                 _shown.Add((dest, false));
-                RentOwn(new Vector3(dest.x * sp, 0.14f, dest.y * sp), ColP1Move, 3001);
+                Rent(ref _ownHlActive,new Vector3(dest.x * sp, 0.14f, dest.y * sp), ColP1Move, 3001);
             }
         }
 
@@ -375,12 +354,12 @@ public class InputHandler : MonoBehaviour
             bool isEnemy = occ != null && !occ.IsDead;
             if (isEnemy)
                 _shown.Add((dest, true));
-            RentOwn(new Vector3(dest.x * sp, 0.14f, dest.y * sp), ColP1Attack, 3001);
+            Rent(ref _ownHlActive,new Vector3(dest.x * sp, 0.14f, dest.y * sp), ColP1Attack, 3001);
         }
 
         // 選択リングは必ず最後に借りる（UpdateSelectRing が _hlPool[_ownHlActive-1] を参照）
         var ringPos0 = GridManager.Instance.TileToWorld(unit.GridPos.x, unit.GridPos.y) + new Vector3(0f, 0.31f, 0f);
-        RentOwn(ringPos0, ColP1Ring, 3000);
+        Rent(ref _ownHlActive,ringPos0, ColP1Ring, 3000);
     }
 
     // ---- 選択リングを動いているユニットに追従 ----
@@ -398,7 +377,7 @@ public class InputHandler : MonoBehaviour
     void ClearHighlights()
     {
         _shown.Clear();
-        ReturnOwnHl();
+        ReturnHl(ref _ownHlActive);
     }
 
     // ---- 敵移動範囲プレビュー ----
@@ -420,14 +399,14 @@ public class InputHandler : MonoBehaviour
             var occ        = UnitManager.Instance.GetUnitAt(dest);
             if (occ != null && occ.Owner == enemy.Owner) continue;
             bool destBlocked  = tile.Type != TerrainType.Bridge && blocked.Contains(tile.Type);
-            bool isFriendly   = occ != null && !occ.IsDead;
+            bool isOccupied   = occ != null && !occ.IsDead;
             if (destBlocked)
             {
-                RentEnemy(new Vector3(dest.x * sp, 0.14f, dest.y * sp), ColP2Attack, 3001);
+                Rent(ref _enemyHlActive,new Vector3(dest.x * sp, 0.14f, dest.y * sp), ColP2Attack, 3001);
                 continue;
             }
-            RentEnemy(new Vector3(dest.x * sp, 0.14f, dest.y * sp),
-                isFriendly ? ColP2Attack : ColP2Move, 3001);
+            Rent(ref _enemyHlActive,new Vector3(dest.x * sp, 0.14f, dest.y * sp),
+                isOccupied ? ColP2Attack : ColP2Move, 3001);
         }
 
         // 攻撃専用オフセット（チンパンジー中距離攻撃など）
@@ -438,17 +417,17 @@ public class InputHandler : MonoBehaviour
             if (GridManager.Instance.GetTile(dest.x, dest.y) == null) continue;
             var occ = UnitManager.Instance.GetUnitAt(dest);
             if (occ != null && occ.Owner == enemy.Owner) continue;
-            RentEnemy(new Vector3(dest.x * sp, 0.14f, dest.y * sp), ColP2Attack, 3001);
+            Rent(ref _enemyHlActive,new Vector3(dest.x * sp, 0.14f, dest.y * sp), ColP2Attack, 3001);
         }
 
         var ringPosE = GridManager.Instance.TileToWorld(enemy.GridPos.x, enemy.GridPos.y) + new Vector3(0f, 0.03f, 0f);
-        RentEnemy(ringPosE, ColP2Ring, 3000);
+        Rent(ref _enemyHlActive,ringPosE, ColP2Ring, 3000);
     }
 
     void ClearEnemyPreview()
     {
         _enemyPreviewed = null;
-        ReturnEnemyHl();
+        ReturnHl(ref _enemyHlActive);
     }
 
     // 移動中またはクールダウン中の自ユニット数

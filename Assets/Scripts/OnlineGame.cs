@@ -107,8 +107,10 @@ public class OnlineGame : MonoBehaviour, IOnEventCallback
     public void SendLockTarget(int unitNetId, int targetNetId)
         => PhotonNetwork.RaiseEvent(EV_LOCK, new int[] { unitNetId, targetNetId }, ToOthers, Reliable);
 
-    public void SendGameEnd(int winner)
-        => PhotonNetwork.RaiseEvent(EV_GAME_END, winner, ToOthers, Reliable);
+    public void SendGameEnd(int winner, AnimalType killerType, Vector3 foxPos)
+        => PhotonNetwork.RaiseEvent(EV_GAME_END,
+               new float[] { winner, (float)killerType, foxPos.x, foxPos.z },
+               ToOthers, Reliable);
 
     // P1 がリマッチを開始するときに呼ぶ（新シードを P2 へ送信）
     public void SendRematch(int seed)
@@ -210,7 +212,10 @@ public class OnlineGame : MonoBehaviour, IOnEventCallback
                 break;
 
             case EV_GAME_END:
-                GameManager.Instance?.NotifyRemoteGameEnd((int)ev.CustomData, "相手端末でゲーム終了");
+                var ged = (float[])ev.CustomData;
+                GameManager.Instance?.NotifyRemoteGameEnd(
+                    (int)ged[0], (AnimalType)(int)ged[1],
+                    new Vector3(ged[2], 0f, ged[3]));
                 break;
 
             case EV_REMATCH:

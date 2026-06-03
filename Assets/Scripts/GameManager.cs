@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour
         if (Phase != GamePhase.Battle) return;
         LastFoxKillerType = killerType;
         int winner = losingOwner == 1 ? 2 : 1;
-        if (OnlineManager.IsOnline) OnlineGame.Instance?.SendGameEnd(winner);
+        if (OnlineManager.IsOnline && OnlineGame.Instance != null) OnlineGame.Instance.SendGameEnd(winner, killerType, foxWorldPos);
         StartCoroutine(FoxDeathSequence(winner, $"P{losingOwner} の狐が倒されました", foxWorldPos));
     }
 
@@ -111,10 +111,11 @@ public class GameManager : MonoBehaviour
     }
 
     // 相手端末からのゲーム終了通知
-    public void NotifyRemoteGameEnd(int winner, string reason)
+    public void NotifyRemoteGameEnd(int winner, AnimalType killerType, Vector3 foxPos)
     {
         if (Phase != GamePhase.Battle) return;
-        EndGame(winner, reason);
+        LastFoxKillerType = killerType;
+        StartCoroutine(FoxDeathSequence(winner, "相手端末でゲーム終了", foxPos));
     }
 
     IEnumerator BattleTimer()
@@ -255,8 +256,11 @@ public class GameManager : MonoBehaviour
         overlayRt.offsetMin = overlayRt.offsetMax = Vector2.zero;
 
         // ④ ボタン（最前面、絶対ピクセル値・中心原点）
-        var retryBtn = MakeResultButton(cGo.transform, "Retry", -188f, -540f, 315f, 120f, Rematch);
-        MakeResultButton(cGo.transform, "Title", 188f, -540f, 315f, 120f, ReturnToTitle);
+        var retryBtn = MakeResultButton(cGo.transform, "Retry", -170f, -534f, 315f, 120f, Rematch);
+        var titleBtn = MakeResultButton(cGo.transform, "Title",  170f, -534f, 315f, 120f, ReturnToTitle);
+        var btnScale = new Vector3(0.75f, 0.56f, 1f);
+        retryBtn.transform.localScale = btnScale;
+        titleBtn.transform.localScale = btnScale;
 
         // ⑤ オンライン時：相手状態の監視
         if (OnlineManager.IsOnline)
@@ -348,21 +352,6 @@ public class GameManager : MonoBehaviour
             OnlineGame.Instance?.RequestRematch();
         else
             PhaseController.Instance?.GoToGame(isWifi: false);
-    }
-
-    void MakeText(Transform parent, string txt, int size, Vector2 ancMin, Vector2 ancMax)
-    {
-        var go = new GameObject("Text");
-        go.transform.SetParent(parent, false);
-        var t = go.AddComponent<Text>();
-        t.font      = UIAssetTable.Instance.font;
-        t.text      = txt;
-        t.fontSize  = size;
-        t.color     = Color.white;
-        t.alignment = TextAnchor.MiddleCenter;
-        var rt = go.GetComponent<RectTransform>();
-        rt.anchorMin = ancMin; rt.anchorMax = ancMax;
-        rt.offsetMin = rt.offsetMax = Vector2.zero;
     }
 
     void ReturnToTitle()

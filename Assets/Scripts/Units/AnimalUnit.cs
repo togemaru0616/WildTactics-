@@ -20,7 +20,6 @@ public class AnimalUnit : MonoBehaviour
     public bool       IsOnMoveCooldown => _moveCooldown > 0f;
     public bool       CanMove          => !IsDead && !IsActing && (SimMode || (GameManager.Instance != null && GameManager.Instance.Phase == GamePhase.Battle)) && _moveCooldown <= 0f;
     public bool       CanAttack        => !IsDead && !IsMoving && !_isAttacking && _attackCooldown <= 0f && (SimMode || (GameManager.Instance != null && GameManager.Instance.Phase == GamePhase.Battle));
-    public bool       CanAct           => CanMove;
 
     public int NetworkId { get; set; }
 
@@ -334,8 +333,6 @@ public class AnimalUnit : MonoBehaviour
             }
 
             while (!CanAttack) yield return _waitAttackTick;
-
-            if (!CanAttack) { yield return null; continue; }
 
             var enemies = GetEnemiesInRange();
             if (enemies.Count == 0) { yield return null; continue; }
@@ -669,7 +666,8 @@ public class AnimalUnit : MonoBehaviour
         var bg = GameObject.CreatePrimitive(PrimitiveType.Cube);
         bg.name = "HPBar_BG";
         bg.transform.SetParent(_hpBarRoot.transform);
-        bg.transform.localPosition = new Vector3(0f, 0.35f, 0.3f);
+        float barZ = Owner == 1 ? -0.3f : 0.3f;
+        bg.transform.localPosition = new Vector3(0f, 0.35f, barZ);
         bg.transform.localScale    = new Vector3(w, 0.04f, 0.08f);
         Destroy(bg.GetComponent<Collider>());
         var bgMat = new Material(UIAssetTable.Instance.unlitShader);
@@ -679,7 +677,7 @@ public class AnimalUnit : MonoBehaviour
         var fill = GameObject.CreatePrimitive(PrimitiveType.Cube);
         fill.name = "HPBar_Fill";
         fill.transform.SetParent(_hpBarRoot.transform);
-        fill.transform.localPosition = new Vector3(0f, 0.36f, 0.3f);
+        fill.transform.localPosition = new Vector3(0f, 0.36f, barZ);
         fill.transform.localScale    = new Vector3(w, 0.04f, 0.08f);
         Destroy(fill.GetComponent<Collider>());
         _hpBarMat = new Material(UIAssetTable.Instance.unlitShader);
@@ -694,8 +692,9 @@ public class AnimalUnit : MonoBehaviour
         if (_hpBarFill == null) return;
         float ratio = (float)CurrentHP / MaxHP;
         float w     = GridManager.Instance != null ? GridManager.Instance.TileSize * 0.85f : 0.85f;
+        float barZ = Owner == 1 ? -0.3f : 0.3f;
         _hpBarFill.localScale    = new Vector3(w * ratio, 0.04f, 0.08f);
-        _hpBarFill.localPosition = new Vector3(-w * (1f - ratio) * 0.5f, 0.36f, 0.3f);
+        _hpBarFill.localPosition = new Vector3(-w * (1f - ratio) * 0.5f, 0.36f, barZ);
         _hpBarMat.color = Color.Lerp(new Color(0.9f, 0.1f, 0.1f), new Color(0.15f, 0.85f, 0.15f), ratio);
     }
 

@@ -23,7 +23,7 @@ public static class GameSetup
         d.volumeLayerMask      = 0;
     }
 
-    static AIWeightSet LoadBestWeights()
+    public static AIWeightSet LoadBestWeights()
     {
         // 学習済み重みをローカルから優先ロード（エディタ・開発用）
         string path = Path.Combine(Application.persistentDataPath, "best_weights.json");
@@ -87,7 +87,6 @@ public static class GameSetup
 
         var inputGo = new GameObject("InputHandler");
         inputGo.AddComponent<InputHandler>();
-
 
         // WiFiモードではAIを使わない（P2は人間）
         if (!isWifi)

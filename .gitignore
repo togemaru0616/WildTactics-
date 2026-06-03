@@ -41,6 +41,8 @@ Assets/Scripts/ThirdPartyStubs/
 Assets/Scripts/ThirdPartyStubs.meta
 Assets/Resources/AnimalSolidColors.meta
 Assets/Editor/
+Assets/Photon/
+Assets/Plugins/
 Assets/Resources/PerformanceTestRunInfo.json
 Assets/Resources/PerformanceTestRunInfo.json.meta
 Assets/Resources/PerformanceTestRunSettings.json

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Rendering.Universal;
@@ -875,24 +874,13 @@ public class PlacementManager : MonoBehaviour
         }
     }
 
-    static AIWeightSet LoadBestWeights()
-    {
-        string path = Path.Combine(Application.persistentDataPath, "best_weights.json");
-        if (File.Exists(path))
-            return JsonUtility.FromJson<AIWeightSet>(File.ReadAllText(path));
-        var asset = Resources.Load<TextAsset>("best_weights");
-        if (asset != null)
-            return JsonUtility.FromJson<AIWeightSet>(asset.text);
-        return new AIWeightSet();
-    }
-
     void P2AutoPlace()
     {
         if (OnlineManager.IsOnline) return;
         if (GridManager.Instance == null || GridManager.Instance.Grid == null) return;
 
         var grid = GridManager.Instance.Grid;
-        var w = LoadBestWeights();
+        var w = GameSetup.LoadBestWeights();
 
         var lighthouses = new List<Vector2Int>();
         for (int x = 0; x < TerrainGenerator.COLS; x++)

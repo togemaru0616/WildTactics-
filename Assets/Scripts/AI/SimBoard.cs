@@ -494,9 +494,7 @@ public class SimBoard
             if (bestTarget < 0) continue;
 
             ref var target = ref _units[bestTarget];
-            int dmg = _justCharged[i]
-                ? AnimalDefinitions.GetChargeDamage(attacker.AnimalType)
-                : attacker.AttackPower;
+            int dmg = attacker.AttackPower;
             target.CurrentHP -= dmg;
             if (target.CurrentHP <= 0) { target.IsDead = true; target.CurrentHP = 0; }
 

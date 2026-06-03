@@ -31,7 +31,7 @@ public class GridManager : MonoBehaviour
     };
 
     GameObject[] _tileObjects;
-    List<GameObject> _borderTiles = new();
+    readonly List<GameObject> _borderTiles = new();
     GameObject   _blackGrid;
     Material     _baseMat;
     readonly Dictionary<Vector2Int, GameObject> _outpostOverlays = new();
@@ -245,6 +245,6 @@ public class GridManager : MonoBehaviour
         return new Vector3(x * sp, 0f, z * sp);
     }
 
-[ContextMenu("Regenerate Map")]
+    [ContextMenu("Regenerate Map")]
     void RegenerateMap() => GenerateMap();
 }

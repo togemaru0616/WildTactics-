@@ -26,10 +26,9 @@ public class FogManager : MonoBehaviour
     readonly Dictionary<Vector2Int, int> _lighthouseOwners = new();
     const int LighthouseVisionRadius = 5;
 
-    void Awake() => Instance = this;
-
-    void Start()
+    void Awake()
     {
+        Instance = this;
         InitFogTiles();
         StartCoroutine(FogUpdateLoop());
     }
@@ -68,8 +67,7 @@ public class FogManager : MonoBehaviour
                 Destroy(go.GetComponent<MeshCollider>());
                 go.GetComponent<MeshRenderer>().material = new Material(mat);
                 _fogTiles[x, z] = go;
-                _timer[x, z] = 0f;
-                _fogActive[x, z] = true; // GameObject はデフォルトでアクティブ（霧が出ている）
+                go.SetActive(false);
             }
         }
     }
@@ -146,7 +144,7 @@ public class FogManager : MonoBehaviour
                 if (vis && !unit.IsDead) enemyVisible = true;
             }
 
-            if (GameManager.Instance?.Phase == GamePhase.Battle)
+            if (GameManager.Instance != null && GameManager.Instance.Phase == GamePhase.Battle)
             {
                 if (enemyVisible) SoundManager.Combat();
                 else              SoundManager.Explore();
